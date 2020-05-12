@@ -1,0 +1,19 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <div class="form-group">
+        <input type="text" id="username" class="form-control fadeIn second" ngModel name="username" placeholder="Логин">
+        <input type="text" id="password" class="form-control fadeIn third" ngModel name="password" placeholder="Пароль">
+      </div>
+      <div *ngIf="!reg">
+        <input type="submit" class="fadeIn fourth" value="Вход">
+      </div>
+      <div *ngIf="reg">
+        <input type="submit" class="fadeIn fourth" value="Регистрация">
+      </div>
+    </form>
+    <div id="formFooter">
+      <a class="underlineHover" (click)="registration()">Регистрация</a>
+    </div>
+  </div>
+</div>

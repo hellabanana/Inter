@@ -1,0 +1,21 @@
+<div *ngIf="isItems;else noitem">
+  <div *ngFor="let p of products">
+    <div class="products-catagories-area clearfix">
+      <div class="amado-pro-catagory clearfix">
+        <div class="single-products-catagory clearfix">
+          <a href="" (click)="itemopen()">
+            <img src="{{p.Picture}}" alt="">
+            <div class="hover-content">
+              <div class="line"></div>
+              <p>От {{p.StartPrice}}</p>
+              <h4>{{p.LotName}}</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noitem>
+  <h2>Нет данных!</h2>
+</ng-template>
