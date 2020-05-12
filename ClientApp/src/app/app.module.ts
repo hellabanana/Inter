@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { CategoriesComponent } from './Categories/categories.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth-guard.service';
+import { newlotComponent } from './newlot/newlot.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -22,7 +23,8 @@ export function tokenGetter() {
     NavMenuComponent,
     HomeComponent,
     CategoriesComponent,
-    LoginComponent
+    LoginComponent,
+    newlotComponent
  
   ],
   imports: [
@@ -38,6 +40,9 @@ export function tokenGetter() {
       }
       , {
         path: 'login', component: LoginComponent, pathMatch: 'full'
+      }
+      , {
+        path: 'newlot', component: newlotComponent, pathMatch: 'full'
       }
    
     ]), JwtModule.forRoot({

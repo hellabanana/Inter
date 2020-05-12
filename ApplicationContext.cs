@@ -8,7 +8,10 @@ namespace HealthCheck.Pages
         public DbSet<Category> Categories { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<File> Files { get; set; }
+        public DbSet<Lot> Lot { get; set; }
+        public DbSet<Bets> Bets { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
            : base(options)
         {
@@ -32,6 +35,6 @@ namespace HealthCheck.Pages
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aukcion;Trusted_Connection=True;");
         }
-        public DbSet<HealthCheck.Models.Lot> Lot { get; set; }
+       
     }
 }

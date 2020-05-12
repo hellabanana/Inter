@@ -24,7 +24,7 @@ export class CategoriesComponent implements OnInit {
   loadProducts() {
 
     this.dataService.getProducts(this.url)
-      .subscribe((data: Product[]) => this.products = data);
+      .subscribe((data: Product[]) => { this.products = data; console.log(data); });
     
   }
        

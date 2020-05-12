@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ export class LoginComponent {
 
   invalidLogin: boolean;
   reg: boolean;
+  @Output() user: string;
   private url = "/api/account";
 
   constructor(private router: Router, private http: HttpClient) {this.reg=false; }
@@ -32,12 +33,14 @@ export class LoginComponent {
     } else {
      
 
-      this.http.post(this.url + "/token", {username,password})
-      .subscribe(response => {
-        console.log((<any>response).access_token);
+      this.http.post(this.url + "/token", { username, password })
+        .subscribe(response => {
+          this.user = (<any>response).username;
+          console.log(this.user);
         let token = (<any>response).access_token;
       localStorage.setItem("jwt", token);
-      this.invalidLogin = false;
+          this.invalidLogin = false;
+          this.http.get("/api/account/login").subscribe(r => this.user = (<any>r).username);
       this.router.navigate(["/"]);
       }, err => {
           console.log(err);

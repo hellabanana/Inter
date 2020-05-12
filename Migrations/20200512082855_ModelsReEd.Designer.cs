@@ -4,48 +4,22 @@ using HealthCheck.Pages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthCheck.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200512082855_ModelsReEd")]
+    partial class ModelsReEd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("HealthCheck.Models.Bets", b =>
-                {
-                    b.Property<int>("BetId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("LotBetLotId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("NewPrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("TimeBet")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UserBetId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BetId");
-
-                    b.HasIndex("LotBetLotId");
-
-                    b.HasIndex("UserBetId");
-
-                    b.ToTable("Bets");
-                });
 
             modelBuilder.Entity("HealthCheck.Models.Category", b =>
                 {
@@ -61,24 +35,6 @@ namespace HealthCheck.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("HealthCheck.Models.File", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Path")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("HealthCheck.Models.Lot", b =>
@@ -100,9 +56,6 @@ namespace HealthCheck.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FileIDId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Info")
                         .HasColumnType("nvarchar(max)");
 
@@ -116,14 +69,16 @@ namespace HealthCheck.Migrations
                     b.Property<int?>("OwnerId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Picture")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("StartPrice")
                         .HasColumnType("float");
 
                     b.HasKey("LotId");
 
                     b.HasIndex("BuyerId");
-
-                    b.HasIndex("FileIDId");
 
                     b.HasIndex("LotCategoryCategoryId");
 
@@ -191,28 +146,11 @@ namespace HealthCheck.Migrations
                         });
                 });
 
-            modelBuilder.Entity("HealthCheck.Models.Bets", b =>
-                {
-                    b.HasOne("HealthCheck.Models.Lot", "LotBet")
-                        .WithMany()
-                        .HasForeignKey("LotBetLotId");
-
-                    b.HasOne("HealthCheck.Models.User", "UserBet")
-                        .WithMany()
-                        .HasForeignKey("UserBetId");
-                });
-
             modelBuilder.Entity("HealthCheck.Models.Lot", b =>
                 {
                     b.HasOne("HealthCheck.Models.User", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId");
-
-                    b.HasOne("HealthCheck.Models.File", "FileID")
-                        .WithMany()
-                        .HasForeignKey("FileIDId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("HealthCheck.Models.Category", "LotCategory")
                         .WithMany("Lots")

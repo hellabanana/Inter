@@ -21,6 +21,17 @@ namespace HealthCheck.Controllers
         {
             conn = context;
         }
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        [HttpGet("login")]
+        public IActionResult LoginName()
+        {
+           var  response = new
+            {
+                username = User.Identity.Name
+            
+            };
+         return   Json(response);
+        }
        
         [HttpPost("token")]
         public IActionResult Token([FromBody]LoginMock log)

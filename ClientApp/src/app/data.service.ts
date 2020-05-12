@@ -10,6 +10,9 @@ export class DataService {
 
   constructor(private http: HttpClient) {
   }
+  getLogin() {
+    return this.http.get("/api/account/login");
+  }
 
   getProducts(url: string) {
 

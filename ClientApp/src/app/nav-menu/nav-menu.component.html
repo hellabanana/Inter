@@ -14,7 +14,9 @@
           </li>
         </ul>
         <div *ngIf="isUserAuthenticated();else unset">
-          <a class="btn btn-lg btn-success" data-toggle="modal">Добавить лот</a>
+          <a class="btn btn-lg btn-success" routerLink="/newlot" data-toggle="modal">Добавить лот</a>
+          
+
 
           <span class="navbar-text actions"> <a class="btn btn-light action-button" role="button" (click)="logOut()">Выход</a></span>
 

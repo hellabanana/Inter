@@ -1,11 +1,16 @@
 export class Product {
   constructor(
-    public LotId?: number,
-    public LotName?: string,
-    public  Picture?:string,
-    public StartPrice?:number,
-    public  BuyOutPrice?: number,
-    public  Info?:string,
-    public LotCategory?:string
+    public lotId: number,
+    public Name?: string,
+    public  FileID?:string,
+    public startPrice?:number,
+    public  buyOutPrice?: number,
+    public  info?:string,
+    public lotCategory?: string,
+    public owner?: string,
+    public buyer?: string,
+    public dateEnd?: Date,
+    public dateStart?:Date
+
     ) { }
 }

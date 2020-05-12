@@ -5,34 +5,43 @@ import { DataService } from '../data.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
- // styleUrls:['./core-style.css'],
+ styleUrls:['./core-style.css'],
   providers: [DataService]
 
 })
 export class HomeComponent {
   private name: string;
 
-  products: Product[] ;
-  private url = "/api/Lots";
-  isItems: boolean;
 
- constructor(private dataService: DataService) { }
+  products: Product[] = [];
+  current: Product;
+  private url = "api/Lots";
+  isItems = true;
 
-  ngoninit() {
-    if (this.products.length == 0) { this.isItems = false; }
-    console.log(this.products);
-  this.getall();
-
+  constructor(private dataService: DataService) {
+   
+    this.getall();
+    console.log("Now:" + this.products.length);
   }
 
+  ngoninit() {
+    this.getall();
+    console.log("Now:" + this.products.length);
+  }
+  change() {
+    this.isItems = !this.isItems;
+  }
+  
+
   itemopen(id: number) {
-   this.dataService.getProduct(id, this.url);
+    this.current = this.products.find(x => x.lotId === id);
+    this.change();
   }
 
   getall() {
    this.dataService.getProducts(this.url)
-      .subscribe(
-        (data: Product[]) => this.products = data,
+     .subscribe(
+       (data: Product[]) => { this.products=data;  },
         err => console.log(err)
       );
 

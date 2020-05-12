@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HealthCheck.Models
 {
@@ -13,5 +10,6 @@ namespace HealthCheck.Models
         public Lot LotBet { get; set; }
         public User UserBet { get; set; }
         public double NewPrice { get; set; }
+        public DateTime TimeBet { get; set; }
     }
 }
