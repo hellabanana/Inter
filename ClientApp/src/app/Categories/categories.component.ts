@@ -6,7 +6,6 @@ import { Product } from '../models/product';
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
-  providers: [DataService]
 })
 export class CategoriesComponent implements OnInit {
 

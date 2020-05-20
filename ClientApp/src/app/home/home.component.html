@@ -1,80 +1,88 @@
-<div *ngIf="isItems;else item">
-  <div *ngFor="let p of products">
-    <div class="products-catagories-area clearfix">
-      <div class="amado-pro-catagory clearfix">
-        <div class="single-products-catagory clearfix">
-          <a href="" (click)="itemopen(p.lotId)">
-            <img src="https://avatarko.ru/img/kartinka/1/avatarko_anonim.jpg" alt="">
-            <div class="hover-content">
-              <div class="line"></div>
-              <p>От {{p.startPrice}}</p>
-              <h4>{{p.lotName}}</h4>
+<div *ngIf="dataService.isViewed;else item">
+  <div class="col-md-9">
+    <div class="row">
+      <div *ngFor="let p of products" class="col-sm-4 col-lg-4 col-md-4">
+        
+          <div class="thumbnail">
+            <img width="150" height="250" src="/Upload/{{p.fileID.name}}" alt="">
+            <div class="caption">
+              <h4 class="pull-right">От {{p.startPrice}} б/р</h4>
+              
+                <a (click)="itemopen(p.lotId)">{{p.name}}</a>
+              
+                <p style=" word-wrap: break-word; overflow: hidden;">{{p.info| slice:0:60}}</p>
             </div>
-          </a>
-        </div>
+            <div class="ratings">
+              <p class="">Дата закрытия:{{p.dateEnd|date:"dd/MM в HH:mm"}}</p>
+              <p>
+                
+              </p>
+            </div>
+          </div>
+    
       </div>
     </div>
   </div>
 </div>
 
 
-<ng-template #item>
-  <div class="single-product-area section-padding-100 clearfix">
-    <div class="container-fluid">
+  <ng-template #item >
+
+    <div class="container">
       <div class="row">
-        <div class="col-12 col-lg-7">
-          <div class="single_product_thumb">
-            <div id="product_details_slider" class="carousel slide" data-ride="carousel">
-              <ol class="carousel-indicators">
-                <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(img/product-img/pro-big-1.jpg);">
-                </li>
-                <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
-                </li>
-              </ol>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <a class="gallery_img" href="img/product-img/pro-big-1.jpg">
-                    <img class="d-block w-100" src="img/product-img/pro-big-1.jpg" alt="First slide">
-                  </a>
-                </div>
-              </div>
-            </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="mb-2">
+            <img class="w-100" src="/Upload/{{current.fileID.name}}" alt="">
+          </div>
+          <div class="mb-2 d-flex">
+            <h4 class="font-weight-normal">{{current.name}}</h4>
+          </div>
+          <div class="mb-2">
+            <ul class="list-unstyled">
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Категория:</span>
+                <label class="media-body">{{current.lotCategory.categoryName}}</label>
+              </li>
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Дата закрытия лота:</span>
+                <label class="media-body">{{current.dateEnd|date:"dd/MM в HH:mm"}}</label>
+              </li>
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Владелец:</span>
+                <label class="media-body">{{current.owner.email}}</label>
+              </li>
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Цена выкупа:</span>
+                <label class="media-body">{{current.buyOutPrice}} б/р</label>
+              </li>
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Стартовая цена:</span>
+                <label class="media-body">{{current.startPrice}} б/р</label>
+              </li>
+              <li class="media">
+                <span class="w-50 text-black font-weight-normal">Статус:</span>
+                <label class="media-body">{{current.status}}</label>
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="col-12 col-lg-5">
-          <div class="single_product_desc">
-            <!-- Product Meta Data -->
-            <div class="product-meta-data">
-              <div class="line"></div>
-              <p class="product-price">{{current.startPrice}}</p>
-              <a href="product-details.html">
-                <h6>{{current.name}}</h6>
-              </a>
-             
-              <!-- Avaiable -->
-              <p class="avaibility"><i class="fa fa-circle"></i> In Stock</p>
-            </div>
+        <div class="col-lg-7 col-md-6 pl-xl-3">
+          <h5 class="font-weight-normal">Информация о лоте:</h5>
+          <p>{{current.info}}</p>
+          <div class="my-2 bg-light p-2">
+            <p *ngIf="bets!=null;else gg" class="font-italic mb-0">Текущая цена:{{bets.newPrice}} б/р</p>
+            <ng-template #gg>
+              <p class="font-italic mb-0">Текущая цена:{{current.startPrice}} б/р</p>
+            </ng-template>
+          </div>
 
-            <div class="short_overview my-5">
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
-            </div>
-
-            <!-- Add to Cart Form -->
-            <form class="cart clearfix" method="post">
-              <div class="cart-btn d-flex mb-50">
-                <p>Qty</p>
-                <div class="quantity">
-                  <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-caret-down" aria-hidden="true"></i></span>
-                  <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
-                  <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
-                </div>
-              </div>
-              <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
-            </form>
+          <h5 class="font-weight-normal">Новая ставка</h5>
+          <div class="input-group mb-5">
+            <input type="number"  min="{{current.startPrice}}"  aria-describedby="basic-addon2"><button type="button" class="btn btn-success">Сделать ставку!</button><button type="button" class="btn btn-primary">Купить сразу</button>
 
           </div>
+
         </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>

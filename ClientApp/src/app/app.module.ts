@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
 
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -12,6 +13,7 @@ import { CategoriesComponent } from './Categories/categories.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth-guard.service';
 import { newlotComponent } from './newlot/newlot.component';
+import { DataService } from './data.service';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -30,6 +32,7 @@ export function tokenGetter() {
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+
     FormsModule,
     
     RouterModule.forRoot([
@@ -43,7 +46,8 @@ export function tokenGetter() {
       }
       , {
         path: 'newlot', component: newlotComponent, pathMatch: 'full'
-      }
+      },
+      { path: ':cat', component: HomeComponent },
    
     ]), JwtModule.forRoot({
       config: {
@@ -53,7 +57,7 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, DataService], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,7 +2,7 @@ define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Product = /** @class */ (function () {
-        function Product(lotId, Name, FileID, startPrice, buyOutPrice, info, lotCategory, owner, buyer, dateEnd, dateStart) {
+        function Product(lotId, Name, FileID, startPrice, buyOutPrice, info, lotCategory, owner, buyer, dateEnd, dateStart, status) {
             this.lotId = lotId;
             this.Name = Name;
             this.FileID = FileID;
@@ -14,6 +14,7 @@ define(["require", "exports"], function (require, exports) {
             this.buyer = buyer;
             this.dateEnd = dateEnd;
             this.dateStart = dateStart;
+            this.status = status;
         }
         return Product;
     }());

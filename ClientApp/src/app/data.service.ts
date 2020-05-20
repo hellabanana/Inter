@@ -8,7 +8,10 @@ export class DataService {
 
   //private url = "/api/categories";
 
+  public isViewed: boolean;
+
   constructor(private http: HttpClient) {
+    this.isViewed = true;
   }
   getLogin() {
     return this.http.get("/api/account/login");

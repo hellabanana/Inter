@@ -20,5 +20,6 @@ namespace HealthCheck.Models
         public User Buyer { get; set; }
         public DateTime DateEnd { get; set; }
         public DateTime DateStart { get; set; }
+        public string Status { get; set; }
     }
 }

@@ -30,7 +30,8 @@ namespace HealthCheck.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Lot>>> GetLot()
         {
-            return await _context.Lot.ToListAsync();
+           
+            return await _context.Lot.Include(x => x.LotCategory).Include(u => u.Owner).Include(f=>f.FileID).ToListAsync();
         }
 
         // GET: api/Lots/5
@@ -45,6 +46,16 @@ namespace HealthCheck.Controllers
             }
 
             return lot;
+        }
+
+        [HttpGet("test")]
+        public async Task<ActionResult<Lot>> Get()
+        {
+
+            string contentRootPath = _appEnvironment.ContentRootPath;
+            string webRootPath = _appEnvironment.WebRootPath;
+
+            return Content(webRootPath+"/Upload/pro-big-1.jpg");
         }
 
         // PUT: api/Lots/5
@@ -99,7 +110,8 @@ namespace HealthCheck.Controllers
                     Name = mock.Info,
                     Owner = _context.Users.First(u => u.Email == User.Identity.Name),
                     LotCategory = _context.Categories.First(x => x.CategoryName == mock.LotCategory),
-                    StartPrice = mock.StartPrice
+                    StartPrice = mock.StartPrice,
+                    Status=mock.Status
 
 
                 };
@@ -185,5 +197,6 @@ namespace HealthCheck.Controllers
         public string Owner{ get; set; }
         public string DateEnd { get; set; }
         public string DateStart { get; set; }
+        public string Status { get; set; }
     }
 }

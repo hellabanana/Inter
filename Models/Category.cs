@@ -10,12 +10,7 @@ namespace HealthCheck.Models
         [Required]
         public string CategoryName { get; set; }
 
-        public ICollection<Lot> Lots { get; set; }
-        public Category()
-        {
-            Lots = new List<Lot>();
-
-        }
+        public List<Lot> Lots { get; set; }
 
     }
 }

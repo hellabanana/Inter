@@ -10,7 +10,8 @@ export class Product {
     public owner?: string,
     public buyer?: string,
     public dateEnd?: Date,
-    public dateStart?:Date
+    public dateStart?: Date,
+    public status?: string
 
     ) { }
 }

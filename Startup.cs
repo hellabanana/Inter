@@ -51,7 +51,7 @@ namespace HealthCheck
                             ValidateIssuerSigningKey = true,
                         };
                     });
-            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
             
            
@@ -73,8 +73,8 @@ namespace HealthCheck
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-         
 
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
