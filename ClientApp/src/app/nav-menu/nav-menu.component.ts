@@ -31,7 +31,7 @@ export class NavMenuComponent {
   }
 
   got() {
-
+    this.x.isViewed = false;
     this.x.isViewed = true;
  
    
@@ -42,6 +42,13 @@ export class NavMenuComponent {
 
   collapse() {
     this.isExpanded = false;
+  }
+
+
+  search(s: any) {
+    this.x.search = s;
+    this.x.setLang(s);
+   
   }
   goHome() {
 

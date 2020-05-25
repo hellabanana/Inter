@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from './models/product';
 import { Observable } from 'rxjs';
@@ -9,6 +9,19 @@ export class DataService {
   //private url = "/api/categories";
 
   public isViewed: boolean;
+  public search: string;
+
+
+  @Output() langUpdated= new EventEmitter ();
+
+  setLang(sr) {
+    this.search = sr;
+    this.langUpdated.emit(this.search);
+  }
+
+  getLang() {
+    return this.search;
+  }
 
   constructor(private http: HttpClient) {
     this.isViewed = true;

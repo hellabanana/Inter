@@ -4,12 +4,12 @@
       <a class="navbar-brand" (click)="got()">Интернет аукцион</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navcol-1">
         <ul class="nav navbar-nav mr-auto">
-          <li class="nav-item" role="presentation"><a class="nav-link" (click)="got()">Главная</a></li>
+          <li class="nav-item" role="presentation"><a class="nav-link" (click)="got()" routerLink="">Главная</a></li>
 
           <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/category">Категории</a></li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown
+              Аукционы
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Action</a>
@@ -18,6 +18,7 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
+          <li class="nav-item" role="presentation"> <input class="form-control" type="text" placeholder="Поиск"  (input)="search($event)" aria-label="Search"></li>
         </ul>
 
         <div *ngIf="isUserAuthenticated();else unset">

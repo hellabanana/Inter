@@ -4,7 +4,11 @@
       <div *ngFor="let p of products" class="col-sm-4 col-lg-4 col-md-4">
         
           <div class="thumbnail">
-            <img width="150" height="250" src="/Upload/{{p.fileID.name}}" alt="">
+            <img width="200px" height="250px" style="min-width: 220px;
+    min-height: 250px;
+    max-width: 220px;
+    max-height: 250px
+" src="/Upload/{{p.fileID.name}}" alt="">
             <div class="caption">
               <h4 class="pull-right">От {{p.startPrice}} б/р</h4>
               
@@ -70,15 +74,15 @@
           <h5 class="font-weight-normal">Информация о лоте:</h5>
           <p>{{current.info}}</p>
           <div class="my-2 bg-light p-2">
-            <p *ngIf="bets!=null;else gg" class="font-italic mb-0">Текущая цена:{{bets.newPrice}} б/р</p>
+            <p *ngIf="bets!=null;else gg" class="font-italic mb-0">Текущая ставка:{{bets.newPrice}} б/р</p>
             <ng-template #gg>
-              <p class="font-italic mb-0">Текущая цена:{{current.startPrice}} б/р</p>
+              <p class="font-italic mb-0">Текущая ставка:{{current.startPrice}} б/р</p>
             </ng-template>
           </div>
 
           <h5 class="font-weight-normal">Новая ставка</h5>
           <div class="input-group mb-5">
-            <input type="number"  min="{{current.startPrice}}"  aria-describedby="basic-addon2"><button type="button" class="btn btn-success">Сделать ставку!</button><button type="button" class="btn btn-primary">Купить сразу</button>
+            <input type="number"  min="{{current.startPrice}}"  aria-describedby="basic-addon2"><button type="button" (click)="buy(current.lotId)" class="btn btn-success">Сделать ставку!</button><button type="button" class="btn btn-primary">Купить сразу</button>
 
           </div>
 

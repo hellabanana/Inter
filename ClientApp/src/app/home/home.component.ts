@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import { PlatformLocation } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Cipher } from 'crypto';
 
 @Component({
   selector: 'app-home',
@@ -15,18 +16,19 @@ import { Subscription } from 'rxjs';
 export class HomeComponent {
   private name: string;
   products: Product[] = [];
+  sec: Product[] = [];
   current: Product;
   bets=null;
   private url = "api/Lots";
   isItems: boolean;
   loaded: boolean;
   cat: string;
-  private subscription: Subscription;
+
   constructor(private dataService: DataService, location: PlatformLocation, private activateRoute: ActivatedRoute) {
     this.isItems = this.dataService.isViewed;
     this.getall();
+  
     console.log(this.dataService.isViewed);
-    this.subscription = activateRoute.params.subscribe(params => this.cat = params['cat']);
     if (activateRoute.snapshot.params['cat'] != null) {
       this.products=  this.products.filter(x => x.lotCategory == activateRoute.snapshot.params['cat']);
     }
@@ -36,16 +38,22 @@ export class HomeComponent {
       this.change();
 
     });
+    this.sec = this.products.slice();
 
 
   }
 
-  ngoninit() { this.getall(); }
+  ngOnInit() {
+    this.getall();
+    this.dataService.langUpdated.subscribe((x) => { this.sr(x); });
+    this.sec = this.products.slice();
+    
+  }
 
   change() {
     this.dataService.isViewed = !this.dataService.isViewed;
     this.isItems = !this.isItems;
-    console.log(this.dataService.isViewed);
+    
   }
 
   getbets(id: number) {
@@ -68,10 +76,20 @@ export class HomeComponent {
   getall() {
    this.dataService.getProducts(this.url)
      .subscribe(
-       (data: Product[]) => { this.products = data; console.log(this.products); },
+       (data: Product[]) => { this.products = data; this.sec = data;  },
         err => console.log(err)
-      );
+    );
+   
 
 
+  }
+
+  sr(str: object) {
+    if (str.target.value == "") {
+      this.products = this.sec;
+    } else {
+      this.products = this.products.filter(x => x.name.includes(str.target.value));
+     
+    }
   }
 }

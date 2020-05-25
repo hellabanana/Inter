@@ -107,11 +107,10 @@ namespace HealthCheck.Controllers
                     FileID = _context.Files.First(x => x.Name == mock.Filename),
                     DateStart = DateTime.ParseExact(mock.DateStart, "yyyy-MM-dd'T'HH:mm", null),
                     Info = mock.Info,
-                    Name = mock.Info,
+                    Name = mock.Name,
                     Owner = _context.Users.First(u => u.Email == User.Identity.Name),
                     LotCategory = _context.Categories.First(x => x.CategoryName == mock.LotCategory),
-                    StartPrice = mock.StartPrice,
-                    Status=mock.Status
+                    StartPrice = mock.StartPrice
 
 
                 };
