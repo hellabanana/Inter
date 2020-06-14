@@ -62,32 +62,25 @@ namespace HealthCheck.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLot(int id, Lot lot)
+        public async Task<IActionResult> PutLot(int id,Lot f)
         {
-            if (id != lot.LotId)
-            {
-                return BadRequest();
-            }
-
+            var lot = _context.Lot.First(x => x.LotId == id);
+            lot.state = "Проверен";
             _context.Entry(lot).State = EntityState.Modified;
-
-            try
-            {
+            _context.Lot.Update(lot);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LotExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            return Ok();
+        }
 
-            return NoContent();
+        [HttpPut("upd/{id}")]
+        public async Task<IActionResult> PutUpd(int id, Lot f)
+        {
+            var lot = _context.Lot.First(x => x.LotId == id);
+            lot.state = "Проверен";
+            _context.Entry(lot).State = EntityState.Modified;
+            _context.Lot.Update(lot);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         // POST: api/Lots
@@ -103,14 +96,15 @@ namespace HealthCheck.Controllers
                 Lot lot = new Lot()
                 {
                     BuyOutPrice = mock.BuyOutPrice,
-                     DateEnd = DateTime.ParseExact(mock.DateEnd, "yyyy-MM-dd'T'HH:mm", null),
+                    DateEnd = DateTime.ParseExact(mock.DateEnd, "yyyy-MM-dd'T'HH:mm", null),
                     FileID = _context.Files.First(x => x.Name == mock.Filename),
                     DateStart = DateTime.ParseExact(mock.DateStart, "yyyy-MM-dd'T'HH:mm", null),
                     Info = mock.Info,
                     Name = mock.Name,
                     Owner = _context.Users.First(u => u.Email == User.Identity.Name),
                     LotCategory = _context.Categories.First(x => x.CategoryName == mock.LotCategory),
-                    StartPrice = mock.StartPrice
+                    StartPrice = mock.StartPrice,
+                    state = "Не активен"
 
 
                 };
@@ -127,6 +121,7 @@ namespace HealthCheck.Controllers
         public async Task<ActionResult<Lot>> DeleteLot(int id)
         {
             var lot = await _context.Lot.FindAsync(id);
+            _context.Bets.RemoveRange(_context.Bets.Where(x => x.LotBet == lot));
             if (lot == null)
             {
                 return NotFound();

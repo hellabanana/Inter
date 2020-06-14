@@ -3,8 +3,8 @@ import { Product } from '../models/mainproducts';
 import { DataService } from '../data.service';
 import { PlatformLocation } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Cipher } from 'crypto';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home',
@@ -20,11 +20,13 @@ export class HomeComponent {
   current: Product;
   bets=null;
   private url = "api/Lots";
+
   isItems: boolean;
   loaded: boolean;
   cat: string;
+  info: string;
 
-  constructor(private dataService: DataService, location: PlatformLocation, private activateRoute: ActivatedRoute) {
+  constructor(private dataService: DataService, location: PlatformLocation, activateRoute: ActivatedRoute, private http: HttpClient) {
     this.isItems = this.dataService.isViewed;
     this.getall();
   
@@ -68,7 +70,7 @@ export class HomeComponent {
   itemopen(id: number) {
     this.bets = null;
     this.current = this.products.find(x => x.lotId === id);
-    console.log(this.current);
+    this.info = this.current.info;
     this.getbets(id);
    
   }
@@ -76,20 +78,23 @@ export class HomeComponent {
   getall() {
    this.dataService.getProducts(this.url)
      .subscribe(
-       (data: Product[]) => { this.products = data; this.sec = data;  },
+       (data: Product[]) => { this.products = data.filter(x => x.state == "Активен"); this.sec = data.filter(x => x.state == "Активен"); },
         err => console.log(err)
     );
-   
-
-
   }
 
-  sr(str: object) {
+  sr(str: any) {
     if (str.target.value == "") {
       this.products = this.sec;
     } else {
-      this.products = this.products.filter(x => x.name.includes(str.target.value));
+      this.products = this.products.filter((x:any) => x.name.includes(str.target.value));
      
     }
+  }
+
+  buy(id: Product) {
+    var price = $("#myInput").val();
+    var bets = id.lotId;
+    this.http.post("api/Bets", { bets, price }).subscribe(data => console.log("isok?" + data), err => console.log("er"+err));
   }
 }

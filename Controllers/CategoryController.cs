@@ -16,6 +16,7 @@ namespace HealthCheck.Controllers
             conn = db;
         
         }
+
         [HttpGet]
         public IEnumerable<Category> Get()
         {

@@ -25,8 +25,8 @@ namespace HealthCheck
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=aukcion;Trusted_Connection=True;";
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString));
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=aukcion;Trusted_Connection=True;MultipleActiveResultSets=true";
+            services.AddDbContext<ApplicationContext>(options =>  options.UseSqlServer(connectionString) ,ServiceLifetime.Transient) ;
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -54,7 +54,8 @@ namespace HealthCheck
             services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
             
-           
+            
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -74,7 +75,7 @@ namespace HealthCheck
                 app.UseHsts();
             }
 
-            
+           
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -91,9 +92,14 @@ namespace HealthCheck
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(name: "default",
+                    pattern: "api/{controller}/{action}");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "api/{controller}/{action=Index}/{id?}");
+                    pattern: "api/{controller}/{action=Index}/{id?}")
+                ;
+                
+                
             });
 
             app.UseSpa(spa =>

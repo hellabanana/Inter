@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace HealthCheck
@@ -7,7 +8,7 @@ namespace HealthCheck
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).UseDefaultServiceProvider(x=>x.ValidateScopes=false).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -15,6 +16,7 @@ namespace HealthCheck
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).ConfigureServices(services =>
+                services.AddHostedService<TimedHostedService>());
     }
 }

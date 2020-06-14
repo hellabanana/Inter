@@ -1,26 +1,29 @@
-<form class="form-compact" enctype="multipart/form-data"    #lotForm="ngForm" (ngSubmit)="upload(file.files);send(lotForm);" action="">
+
+<form class="form-compact" enctype="multipart/form-data" #lotForm="ngForm" (ngSubmit)="upload(file.files);send(lotForm);" action="">
   <div class="row paddingBottom20">
-    <div class="container col-4">
+    <div class="container col-6">
       <div class="row">
         <h6 class="text-center col-12 mb-0">Введите данные</h6>
         <sub class="text-right text-muted col-12"><a href="#" tabindex="-1"><i class="far fa-edit"></i></a></sub>
       </div>
       <div class="dropdown-divider mb-3"></div>
-      
+
       <div class="form-group row">
         <label for="Name" class="col-4 col-form-label-sm text-right">Имя лота:</label>
         <div class="col-8">
           <div class="input-group">
-            <input id="Name" name="Name" type="text" ngModel  class="form-control form-control-sm">
+            <input id="Name" name="Name" type="text" ngModel class="form-control form-control-sm">
           </div>
         </div>
       </div>
       <div class="form-group row">
         <label for="Info" class="col-4 col-form-label-sm text-right">Описание:</label>
-        <div class="col-8">
-          <div class="input-group">
-            <input id="Info" name="Info" type="text" ngModel class="form-control form-control-sm">
-          </div>
+        <div class="">
+          
+            <div id="Info" name="Info"    type="text" ngModel class="form-control form-control-sm summernote"></div>
+            
+
+          
         </div>
       </div>
       <div class="form-group row align-items-center">
@@ -35,8 +38,8 @@
         <label for="LotCategory" class="col-4 col-form-label-sm text-right">Категория:</label>
         <div class="col-8">
           <div class="input-group">
-            <select  id="LotCategory" name="LotCategory" ngModel class="form-control" >
-              <option  *ngFor="let p of categories" value="{{p?.categoryName}}">{{p?.categoryName}}</option>
+            <select id="LotCategory" name="LotCategory" ngModel class="form-control">
+              <option *ngFor="let p of categories" value="{{p?.categoryName}}">{{p?.categoryName}}</option>
             </select>
           </div>
         </div>
@@ -70,7 +73,7 @@
         <label for="File" class="col-4 col-form-label-sm text-right">Фото:</label>
         <div class="col-8">
           <div class="input-group">
-            <input id="File" name="File" #file multiple   type="file" class="form-control form-control-sm">
+            <input id="File" name="File" #file multiple type="file" class="form-control form-control-sm">
           </div>
         </div>
       </div>
@@ -80,3 +83,4 @@
     </div>
   </div>
 </form>
+

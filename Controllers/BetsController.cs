@@ -24,6 +24,18 @@ namespace HealthCheck.Controllers
             _context = context;
             _appEnvironment = appEnvironment;
         }
+        [HttpPost]
+       public async Task<ActionResult<Bets>> PostBet([FromBody] BetMock mock)
+        {
+            try
+            {
+                var bet = new Bets() { LotBet = _context.Lot.First(z => z.LotId == mock.bets), NewPrice = mock.price, TimeBet = DateTime.Now, UserBet = _context.Users.First(x => x.Email == User.Identity.Name) };
+                _context.Bets.Add(bet);
+                _context.SaveChanges();
+            }catch (Exception e) { return Json(e.Message+""+mock.bets+" ffff"+mock.price); }
+            return Ok();
+
+        }
 
 
         // GET: api/Bets
@@ -32,6 +44,7 @@ namespace HealthCheck.Controllers
         {
             return await _context.Bets.Include(x => x.LotBet).Include(a => a.UserBet).ToListAsync();
         }
+       
 
         // GET: api/Bets/5
         [HttpGet("{id}")]
@@ -42,5 +55,12 @@ namespace HealthCheck.Controllers
         }
 
 
+    }
+
+   public class BetMock
+    {
+
+        public int bets { get; set; }
+        public double price { get; set; }
     }
 }

@@ -64,15 +64,19 @@
                 <label class="media-body">{{current.startPrice}} б/р</label>
               </li>
               <li class="media">
-                <span class="w-50 text-black font-weight-normal">Статус:</span>
-                <label class="media-body">{{current.status}}</label>
+                <span class="w-50 text-black font-weight-normal">Текущая цена:</span>
+                <p *ngIf="bets!=null;else gg2" class="font-italic mb-0">Текущая ставка:{{bets.newPrice}} б/р</p>
+                <ng-template #gg2>
+                  <p class="font-italic mb-0">Текущая ставка:{{current.startPrice}} б/р</p>
+                </ng-template>
               </li>
+
             </ul>
           </div>
         </div>
         <div class="col-lg-7 col-md-6 pl-xl-3">
           <h5 class="font-weight-normal">Информация о лоте:</h5>
-          <p>{{current.info}}</p>
+          <div [innerHTML]="info"></div> 
           <div class="my-2 bg-light p-2">
             <p *ngIf="bets!=null;else gg" class="font-italic mb-0">Текущая ставка:{{bets.newPrice}} б/р</p>
             <ng-template #gg>
@@ -82,7 +86,16 @@
 
           <h5 class="font-weight-normal">Новая ставка</h5>
           <div class="input-group mb-5">
-            <input type="number"  min="{{current.startPrice}}"  aria-describedby="basic-addon2"><button type="button" (click)="buy(current.lotId)" class="btn btn-success">Сделать ставку!</button><button type="button" class="btn btn-primary">Купить сразу</button>
+            <div *ngIf="bets!=null;else ggt">
+              <input type="number" min="{{bets.newPrice}}" id="myInput" aria-describedby="basic-addon2"><button type="button" (click)="buy(current)" class="btn btn-success">Сделать ставку!</button>
+              <button type="button" class="btn btn-primary">Купить сразу</button>
+            </div>
+            <ng-template #ggt>
+              <input type="number" min="{{current.startPrice}}" id="myInput" aria-describedby="basic-addon2"><button type="button" (click)="buy(current)" class="btn btn-success">Сделать ставку!</button>
+              <button type="button" class="btn btn-primary">Купить сразу</button>
+            </ng-template>
+
+            
 
           </div>
 

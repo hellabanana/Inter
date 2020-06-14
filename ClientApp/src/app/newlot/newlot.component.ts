@@ -4,12 +4,18 @@ import { Product } from '../models/product';
 import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpClient, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NgxSummernoteDirective } from "ngx-summernote"
+import { NgxSummernoteModule } from "ngx-summernote"
+import { NgxSummernoteViewDirective } from "ngx-summernote"
 import { LoginComponent } from '../login/login.component';
 import { DataService } from '../data.service';
+
 
 @Component({
   selector: 'newlot',
   templateUrl: './newlot.component.html',
+  styles: ['./summernote-lite.min.css'],
+  
   providers: [DataService]
 })
 export class newlotComponent {
@@ -17,11 +23,14 @@ export class newlotComponent {
   cat: CategoriesComponent;
   categories: Product[] = [];
   public Filename: string;
+  
   private url = "/api/Lots";
   constructor(private router: Router, private http: HttpClient, private dataService: DataService) {}
 
   ngOnInit() {
     this.loadProducts();
+     ($(".summernote") as any).summernote({ height: 300 });
+    
     
   }
 
@@ -29,17 +38,21 @@ export class newlotComponent {
 
     this.dataService.getProducts('/api/categories')
       .subscribe((data: Product[]) => { this.categories = data }, err => console.log(err));
+   
     
   }
 
 
 
   public send = (form: NgForm) => {
+    
     setTimeout(() => {
       console.log("OnSend:" + this.Filename);
       let Filename = this.Filename;
       let Name = form.value.Name;
-      let Info = form.value.Info;
+      let Info = ($(".summernote") as any).summernote("code");
+      
+      
       let StartPrice = form.value.StartPrice;
       let LotCategory = form.value.LotCategory;
       let BuyOutPrice = form.value.BuyOutPrice;

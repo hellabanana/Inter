@@ -41,6 +41,7 @@ export class LoginComponent {
       localStorage.setItem("jwt", token);
           this.invalidLogin = false;
           this.http.get("/api/account/login").subscribe(r => this.user = (<any>r).username);
+          
       this.router.navigate(["/"]);
       }, err => {
           console.log(err);

@@ -1,24 +1,15 @@
 <header>
   <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
     <div class="container">
-      <a class="navbar-brand" (click)="got()">Интернет аукцион</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+      <a class="navbar-brand" (click)="got()">Аукцион</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="navcol-1">
         <ul class="nav navbar-nav mr-auto">
           <li class="nav-item" role="presentation"><a class="nav-link" (click)="got()" routerLink="">Главная</a></li>
+          <li class="nav-item" *ngIf="isAdmin" role="presentation"><a class="nav-link" routerLink="/admin">Админпанель</a></li>
+          <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/">Активные</a></li>
+          <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/">Завершенные</a></li>
 
-          <li class="nav-item" role="presentation"><a class="nav-link" routerLink="/category">Категории</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Аукционы
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
-          <li class="nav-item" role="presentation"> <input class="form-control" type="text" placeholder="Поиск"  (input)="search($event)" aria-label="Search"></li>
+          <li class="nav-item" role="presentation"> <input class="form-control" type="text" placeholder="Поиск" (input)="search($event)" aria-label="Search"></li>
         </ul>
 
         <div *ngIf="isUserAuthenticated();else unset">
@@ -30,7 +21,7 @@
 
         </div>
         <ng-template #unset>
-          <span class="navbar-text actions"> <a class="login" routerLink="/login">Вход</a><a class="btn btn-light action-button" role="button" href="#">Регистрация</a></span>
+          <span class="navbar-text actions"><a class="btn btn-light action-button" routerLink="/login" role="button">Вход</a></span>
         </ng-template>   
        
       </div>

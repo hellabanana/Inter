@@ -1,0 +1,150 @@
+
+
+
+
+  <ul style="display: inline;" class="nav navbar-nav mr-auto">
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="users()">Пользователи</a></li>
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="cat()">Категории</a></li>
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="lots()">Все лоты</a></li>
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="activn()">Активные лоты</a></li>
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="zaversh()">Завершенные лоты</a></li>
+    <li style="    display: inline;
+    margin-right: 5px; /* Отступ слева */
+" class="nav-item btn btn-sm btn-dark" role="presentation"><a class="nav-link" (click)="prodan()">Проданные лоты</a></li>
+  </ul>
+
+
+
+
+
+<div *ngIf="iscat">
+  <button type="button" class="btn btn-success" (click)="add()">Добавить</button>
+  <table *ngIf="tableMode; else create" class="table table-striped">
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>Имя</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products">
+        <ng-template [ngIf]="product?.categoryId != p.categoryId" [ngIfElse]="edit">
+          <td>{{p?.categoryId}}</td>
+          <td>{{p?.categoryName}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="editProduct(p)">Изменить</button>
+            <button class="btn btn-sm btn-danger" (click)="delete(p)">Удалить</button>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+
+  <!--шаблон для редактирования-->
+  <ng-template #edit>
+    <td>
+      <input type="number" [(ngModel)]="product.categoryId" class="form-control" />
+    </td>
+    <td>
+      <input type="text" [(ngModel)]="product.categoryName" class="form-control" />
+    </td>
+    <td>
+      <input type="button" value="Сохранить" (click)="save()" class="btn btn-sm btn-success" />
+      <input type="button" value="Отмена" (click)="cancel()" class="btn btn-sm btn-warning" />
+    </td>
+  </ng-template>
+
+  <!--шаблон для добавления-->
+  <ng-template #create>
+
+    <div class="form-group">
+      <label>Имя</label>
+      <input type="text" [(ngModel)]="product.categoryName" class="form-control" />
+    </div>
+
+    <div>
+      <input type="button" value="Сохранить" (click)="save()" class="btn btn-success" />
+      <input type="button" value="Отмена" (click)="cancel()" class="btn btn-warning" />
+    </div>
+  </ng-template>
+</div>
+
+<div *ngIf="islot">
+
+  <table *ngIf="tableMode; else create" class="table table-striped">
+    <thead>
+      <tr>
+        <td>Имя</td>
+        <td>Фото</td>
+        <td>Цена</td>
+        <td>Владелец</td>
+        <td>Статус</td>
+        <td>Дата начала</td>
+        <td>Дата конца</td>
+        <td>Действия</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products">
+        
+          <td>{{p.name}}</td>
+          <td><img width="200px" height="200px" style="min-width: 220px;
+    min-height: 250px;
+    max-width: 220px;
+    max-height: 250px
+" src="/Upload/{{p.fileID.name}}" alt=""></td>
+          <td>{{p.startPrice}}</td>
+          <td>{{p.owner.email}}</td>
+          <td>{{p.state}}</td>
+          <td>{{p.dateStart|date:"dd/MM в HH:mm"}}</td>
+          <td>{{p.dateEnd|date:"dd/MM в HH:mm"}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="active(p)">Сделать активным</button>
+            <button class="btn btn-sm btn-danger" (click)="del(p)">Удалить</button>
+          </td>
+        
+      </tr>
+    </tbody>
+  </table> 
+</div>
+
+
+<div *ngIf="isusr">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <td>Имя</td>
+        <td>Роль</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products">
+        
+          <td>{{p.email}}</td>
+          
+          <td>{{p.role.name}}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="make(p)">Сделать админом</button>
+            <button class="btn btn-sm btn-danger" (click)="delete(p)">Удалить</button>
+          </td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+

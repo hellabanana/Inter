@@ -11,7 +11,7 @@ export class Product {
     public buyer?: string,
     public dateEnd?: Date,
     public dateStart?: Date,
-    public status?: string
+    public state?: string
 
     ) { }
 }

@@ -4,14 +4,16 @@ using HealthCheck.Pages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthCheck.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200611224523_state")]
+    partial class state
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,8 +121,8 @@ namespace HealthCheck.Migrations
                     b.Property<double>("StartPrice")
                         .HasColumnType("float");
 
-                    b.Property<string>("state")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("state")
+                        .HasColumnType("int");
 
                     b.HasKey("LotId");
 

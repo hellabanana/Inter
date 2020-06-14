@@ -34,6 +34,9 @@ export class DataService {
 
     return this.http.get(url);
   }
+  getAdmin() {
+    return this.http.get("api/Admin");
+  }
 
   getProduct(id: number, url: string) {
     return this.http.get(url + '/' + id);
@@ -42,7 +45,7 @@ export class DataService {
   createProduct(product: Product, url: string) {
     return this.http.post(url, product);
   }
-  updateProduct(product: Product, url: string) {
+  updateProduct(product: any, url: string) {
 
     return this.http.put(url, product);
   }

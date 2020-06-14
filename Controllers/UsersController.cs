@@ -23,7 +23,20 @@ namespace HealthCheck.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(x=>x.Role).ToListAsync();
+        }
+
+        //GET:api/Admin
+        [HttpGet("admin")]
+        public bool GetAdmin()
+        {
+            var name = User.Identity.Name;
+            if (name != null)
+            {
+                if (1 == _context.Users.First(u => u.Email == User.Identity.Name).RoleId) return true;
+                else return false;
+            }
+            else return false;
         }
 
         // GET: api/Users/5
@@ -46,30 +59,12 @@ namespace HealthCheck.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+             var lot = _context.Users.First(x => x.Id == id);
+            lot.Role = _context.Roles.First(z=>z.Id==1);
+            _context.Entry(lot).State = EntityState.Modified;
+            _context.Users.Update(lot);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
 
         // POST: api/Users

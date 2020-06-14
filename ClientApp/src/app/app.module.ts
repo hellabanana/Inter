@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from "@auth0/angular-jwt";
+import { NgxSummernoteDirective } from "ngx-summernote"
+import { NgxSummernoteModule } from "ngx-summernote"
+import * as $ from 'jquery';
 
 
 import { AppComponent } from './app.component';
@@ -14,6 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guards/auth-guard.service';
 import { newlotComponent } from './newlot/newlot.component';
 import { DataService } from './data.service';
+import { AdminComponent } from './admin/admin.component';
 
 export function tokenGetter() {
   return localStorage.getItem("jwt");
@@ -26,7 +30,8 @@ export function tokenGetter() {
     HomeComponent,
     CategoriesComponent,
     LoginComponent,
-    newlotComponent
+    newlotComponent,
+    AdminComponent
  
   ],
   imports: [
@@ -47,7 +52,9 @@ export function tokenGetter() {
       , {
         path: 'newlot', component: newlotComponent, pathMatch: 'full'
       },
-      { path: ':cat', component: HomeComponent },
+      {
+        path: 'admin', component: AdminComponent, pathMatch: 'full'
+      },
    
     ]), JwtModule.forRoot({
       config: {

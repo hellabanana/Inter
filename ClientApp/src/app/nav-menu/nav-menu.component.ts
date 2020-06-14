@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { DataService } from '../data.service';
 import { Product } from '../models/product';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -15,8 +16,10 @@ export class NavMenuComponent {
   products: Product[] = [];
   
   isExpanded = false;
-  constructor(private jwtHelper: JwtHelperService, private router: Router, private x: DataService) {
+  isAdmin: boolean;
+  constructor(private jwtHelper: JwtHelperService, private router: Router, private x: DataService, private http: HttpClient) {
     this.loadProducts();
+    this.Admin();
   }
   private url = "/api/categories";
 
@@ -29,7 +32,11 @@ export class NavMenuComponent {
       return false;
     }
   }
-
+  Admin() {
+    this.http.get("api/Users/admin").subscribe((data: boolean) => { this.isAdmin = data; console.log("admin?" + data) }, err => console.log(err));
+   // return this.x.getAdmin().subscribe((x: boolean) => { this.isAdmin = x; console.log(x); }, err => console.log(err));
+    
+  }
   got() {
     this.x.isViewed = false;
     this.x.isViewed = true;
@@ -38,6 +45,7 @@ export class NavMenuComponent {
   }
   public logOut = () => {
     localStorage.removeItem("jwt");
+    this.Admin();
   }
 
   collapse() {
@@ -53,6 +61,7 @@ export class NavMenuComponent {
   goHome() {
 
     this.router.navigate(['/']);
+    this.Admin();
   }
 
   toggle() {
